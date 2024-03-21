@@ -20,7 +20,7 @@ export default function Login() {
   return (
     <div className="flex flex-col items-center justify-center ">
       <div className="max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
-        {/* <h1 className="text-center text-2xl mb-4">Login Page</h1> */}
+        <h1 className="text-center text-2xl mb-4">Simple Login Page</h1>
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
