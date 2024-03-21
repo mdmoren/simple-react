@@ -7,7 +7,7 @@ import Login from "./pages/Login";
 
 function App() {
   return (
-    <div className="bg-gray-100 p-4 h-full">
+    <div className="bg-gray-100">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

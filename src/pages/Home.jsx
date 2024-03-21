@@ -1,7 +1,7 @@
 function Home() {
   return (
-    <div className="text-center">
-      <h1>Home Page</h1>
+    <div className="min-h-screen pt-20">
+      <h1 className="text-center">Home Page</h1>
     </div>
   );
 }

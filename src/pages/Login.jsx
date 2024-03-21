@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false)
 
   function loginButton() {
     console.log("Log in button pressed");
+    setError(true)
   }
 
   function handleEmailChange(e) {
@@ -18,41 +20,47 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center ">
+    <div className="flex flex-col items-center justify-start min-h-screen pt-20">
       <div className="max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
         <h1 className="text-center text-2xl mb-4">Simple Login Page</h1>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="email"
-          >
-            Email
-          </label>
-          <input
-            className="shadow appearance-none border-b-2 border-white hover:border-blue-500 rounded focus:border-white focus:outline-blue-500 w-full py-2 px-3 text-gray-700 leading-tight duration-300"
-            id="email"
-            type="email"
-            placeholder="me@example.com"
-            value={email}
-            onChange={handleEmailChange}
-          />
+
+        <div className="space-y-4 mb-6">
+          <div>
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="email"
+            >
+              Email
+            </label>
+            <input
+              className="shadow appearance-none border-b-2 border-white hover:border-blue-500 rounded focus:border-white focus:outline-blue-500 outline-purple-700 w-full py-2 px-3 text-gray-700 leading-tight duration-300"
+              id="email"
+              type="email"
+              placeholder="me@example.com"
+              value={email}
+              onChange={handleEmailChange}
+            />
+          </div>
+          <div>
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="password"
+            >
+              Password
+            </label>
+            <input
+              className="shadow appearance-none border-b-2 border-white hover:border-blue-500 rounded focus:border-white focus:outline-blue-500 outline-purple-700 w-full py-2 px-3 text-gray-700 leading-tight duration-300"
+              id="password"
+              type="password"
+              placeholder="•••••••••"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+          </div>
+          
+          {/* {error && <h1>error message</h1>} */}
         </div>
-        <div className="mb-6">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <input
-            className="shadow appearance-none border-b-2 hover:border-blue-500 rounded focus:border-white focus:outline-blue-500 w-full py-2 px-3 text-gray-700 leading-tight duration-300"
-            id="password"
-            type="password"
-            placeholder="•••••••••"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-        </div>
+
         <div className="flex items-center justify-between">
           <Link
             to="/login"

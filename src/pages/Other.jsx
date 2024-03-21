@@ -1,7 +1,7 @@
 function Other() {
   return (
-    <div className="text-center">
-      <h1>Other Page</h1>
+    <div className="min-h-screen pt-20">
+      <h1 className="text-center">Other Page</h1>
     </div>
   );
 }
