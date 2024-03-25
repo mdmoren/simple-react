@@ -4,9 +4,8 @@ import axios from "axios";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem('authToken') !== null
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState("");
 
   const login = async (email, password) => {
     try {
@@ -15,11 +14,9 @@ export const AuthProvider = ({ children }) => {
         password: password,
       });
 
-      console.log(response);
-
-      localStorage.setItem('authToken', response.data.userData.accessToken);
-      localStorage.setItem('username', response.data.userData.username);
-
+      // console.log(response);
+      // console.log(response.data.userData.username);
+      setUsername(response.data.userData.username)
       setIsAuthenticated(true);
     } catch (error) {
       console.error("Login failed:", error);
@@ -29,9 +26,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post("/auth/logout", { username: localStorage.getItem('username') });
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('username');
+      await axios.post("/auth/logout", { username: username });
 
       setIsAuthenticated(false);
     } catch (error) {
@@ -41,7 +36,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, username, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

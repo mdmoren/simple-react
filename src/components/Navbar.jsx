@@ -16,7 +16,7 @@ function Navbar() {
     { id: 1, link: "/", label: "Home", requiresAuth: true },
     { id: 2, link: "/profile", label: "profile", requiresAuth: true },
     { id: 3, link: "/logout", label: "Logout", requiresAuth: true },
-    { id: 4, link: "/login", label: "Log in", requiresAuth: false },
+    // { id: 4, link: "/login", label: "Log in", requiresAuth: false }, 
   ];
 
   // Filter the navigation data based on authentication status
