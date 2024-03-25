@@ -1,14 +1,19 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../providers/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
+  const { isAuthenticated, login } = useAuth();
 
-  function loginButton() {
-    console.log("Log in button pressed");
-    setError(true)
+  async function handleLogin() {
+    try {
+      await login(email, password);
+    } catch (error) {
+      setError(true);
+    }
   }
 
   function handleEmailChange(e) {
@@ -17,6 +22,14 @@ export default function Login() {
 
   function handlePasswordChange(e) {
     setPassword(e.target.value);
+  }
+
+  if (isAuthenticated) {
+    return (
+      <div className="min-h-screen pt-20">
+        <h1 className="text-center">You are already logged in.</h1>
+      </div>
+    );
   }
 
   return (
@@ -49,7 +62,7 @@ export default function Login() {
               Password
             </label>
             <input
-              className="shadow appearance-none border-b-2 border-white hover:border-blue-500 rounded focus:border-white focus:outline-blue-500 outline-purple-700 w-full py-2 px-3 text-gray-700 leading-tight duration-300"
+              className="shadow appearance-none border-b-2 border-white hover:border-purple-600 rounded focus:border-white focus:outline-blue-500 outline-purple-700 w-full py-2 px-3 text-gray-700 leading-tight duration-300"
               id="password"
               type="password"
               placeholder="•••••••••"
@@ -57,8 +70,8 @@ export default function Login() {
               onChange={handlePasswordChange}
             />
           </div>
-          
-          {/* {error && <h1>error message</h1>} */}
+
+          {error && <h1>error message</h1>}
         </div>
 
         <div className="flex items-center justify-between">
@@ -69,9 +82,9 @@ export default function Login() {
             Forgot Password?
           </Link>
           <button
-            className="bg-gradient-to-r from-purple-700 to-blue-500 hover:from-purple-800 hover:to-blue-600 text-white font-bold py-2 px-8 rounded-md focus:outline-none shadow-black hover:shadow-lg duration-300 transition-all"
+            className="bg-gradient-to-r from-purple-700 to-blue-500 hover:from-purple-700 hover:to-purple-600 text-white font-bold py-2 px-8 rounded-md focus:outline-none shadow-black hover:shadow-lg duration-300 transition-all"
             type="button"
-            onClick={loginButton}
+            onClick={handleLogin}
           >
             Log In
           </button>

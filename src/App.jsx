@@ -2,18 +2,23 @@ import Navbar from "./components/Navbar";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home";
-import Other from "./pages/Other";
+import Profile from "./pages/Profile";
 import Login from "./pages/Login";
+import Logout from "./pages/Logout";
+import { ProtectedRoutes } from "./utils/ProtectedRoute";
 
 function App() {
   return (
     <div className="bg-gray-100">
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/other" element={<Other />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Route>
         <Route path="/login" element={<Login />} />
-        <Route path="*" element={<Navigate to="/"/>} />
       </Routes>
     </div>
   );

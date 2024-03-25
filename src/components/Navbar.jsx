@@ -2,8 +2,10 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { CgMenuRight, CgClose } from "react-icons/cg";
 import { FaReact } from "react-icons/fa";
+import { useAuth } from "../providers/AuthContext";
 
 function Navbar() {
+  const { isAuthenticated } = useAuth();
   const [menu, setMenu] = useState(false);
 
   function toggleMenu() {
@@ -11,10 +13,16 @@ function Navbar() {
   }
 
   const navData = [
-    { id: 1, link: "/", label: "Home" },
-    { id: 2, link: "/other", label: "Other" },
-    { id: 3, link: "/login", label: "Log in" },
+    { id: 1, link: "/", label: "Home", requiresAuth: true },
+    { id: 2, link: "/profile", label: "profile", requiresAuth: true },
+    { id: 3, link: "/logout", label: "Logout", requiresAuth: true },
+    { id: 4, link: "/login", label: "Log in", requiresAuth: false },
   ];
+
+  // Filter the navigation data based on authentication status
+  const filteredNavData = isAuthenticated
+    ? navData.filter((item) => item.requiresAuth === true)
+    : navData.filter((item) => item.requiresAuth === false);
 
   return (
     <div className="fixed w-full p-4">
@@ -29,7 +37,7 @@ function Navbar() {
         {/* links and utility */}
         <section className="hidden sm:flex">
           <ul className="flex h-full items-center space-x-4">
-            {navData.map((item) => (
+            {filteredNavData.map((item) => (
               <Link
                 to={item.link}
                 key={item.id}
@@ -64,7 +72,7 @@ function Navbar() {
               </Link>
 
               <ul className="flex flex-col space-y-8 w-full h-full items-center justify-center">
-                {navData.map((item) => (
+                {filteredNavData.map((item) => (
                   <Link
                     to={item.link}
                     key={item.id}
