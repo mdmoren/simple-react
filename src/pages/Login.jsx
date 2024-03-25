@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../providers/AuthContext";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const { isAuthenticated, login } = useAuth();
 
   async function handleLogin() {
     try {
-      await login(email, password);
+      await login(username, password);
     } catch (error) {
       setError(true);
     }
   }
 
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
+  function handleUsernameChange(e) {
+    setUsername(e.target.value);
   }
 
   function handlePasswordChange(e) {
@@ -35,23 +35,23 @@ export default function Login() {
   return (
     <div className="flex flex-col items-center justify-start min-h-screen pt-20">
       <div className="max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
-        <h1 className="text-center text-2xl mb-4">Simple Login Page</h1>
+        <h1 className="text-center text-2xl mb-4">Login Page</h1>
 
         <div className="space-y-4 mb-6">
           <div>
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="email"
+              htmlFor="username"
             >
-              Email
+              Username
             </label>
             <input
               className="shadow appearance-none border-b-2 border-white hover:border-blue-500 rounded focus:border-white focus:outline-blue-500 outline-purple-700 w-full py-2 px-3 text-gray-700 leading-tight duration-300"
-              id="email"
-              type="email"
-              placeholder="me@example.com"
-              value={email}
-              onChange={handleEmailChange}
+              id="username"
+              type="username"
+              placeholder=""
+              value={username}
+              onChange={handleUsernameChange}
             />
           </div>
           <div>
