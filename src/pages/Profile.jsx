@@ -13,9 +13,12 @@ function Profile() {
     loading: true,
     error: "",
   });
-  const { username } = useAuth();
+  const { username, validateSession } = useAuth();
 
   useEffect(() => {
+
+    validateSession("profile")
+
     const fetchProfile = async () => {
       try {
         const response = await api.fetchProfile();
@@ -35,7 +38,7 @@ function Profile() {
 
     fetchProfile();
 
-}, [username]);
+}, [validateSession, username]);
 
   const { loading, error, profile } = state;
 

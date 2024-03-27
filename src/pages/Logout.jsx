@@ -1,7 +1,12 @@
+import { useEffect } from "react";
 import { useAuth } from "../providers/AuthContext";
 
 function Logout() {
-  const { logout } = useAuth();
+  const { logout, validateSession } = useAuth();
+
+  useEffect(() => {
+    validateSession("logout");
+  }, [validateSession]);
 
   async function handleLogout() {
     try {
