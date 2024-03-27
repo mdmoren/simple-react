@@ -16,13 +16,7 @@ function Navbar() {
     { id: 1, link: "/", label: "Home", requiresAuth: true },
     { id: 2, link: "/profile", label: "profile", requiresAuth: true },
     { id: 3, link: "/logout", label: "Logout", requiresAuth: true },
-    // { id: 4, link: "/login", label: "Log in", requiresAuth: false }, 
   ];
-
-  // Filter the navigation data based on authentication status
-  const filteredNavData = isAuthenticated
-    ? navData.filter((item) => item.requiresAuth === true)
-    : navData.filter((item) => item.requiresAuth === false);
 
   return (
     <div className="fixed w-full p-4">
@@ -35,31 +29,39 @@ function Navbar() {
         </Link>
 
         {/* links and utility */}
-        <section className="hidden sm:flex">
-          <ul className="flex h-full items-center space-x-4">
-            {filteredNavData.map((item) => (
-              <Link
-                to={item.link}
-                key={item.id}
-                className="text-lg font-semibold hover:scale-105 duration-300 text-gray-500 hover:text-black"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </ul>
-        </section>
+        {isAuthenticated && (
+          <section className="hidden sm:flex">
+            <ul className="flex h-full items-center space-x-4">
+              {navData.map((item) => (
+                <Link
+                  to={item.link}
+                  key={item.id}
+                  className="text-lg font-semibold hover:scale-105 duration-300 text-gray-500 hover:text-black"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </ul>
+          </section>
+        )}
 
-        <section className="flex h-full items-center min-w-20 justify-center sm:justify-end">
+        <section
+          className={`flex h-full items-center min-w-20 ${
+            isAuthenticated ? "justify-center sm:justify-end" : "justify-end"
+          }`}
+        >
           <FaReact className="text-2xl text-blue-600" />
         </section>
 
         {/* menu button */}
-        <section className="sm:hidden flex h-full items-center min-w-20 justify-end">
-          <CgMenuRight
-            onClick={toggleMenu}
-            className="text-2xl hover:scale-110 duration-300 hover:text-blue-600"
-          />
-        </section>
+        {isAuthenticated && (
+          <section className="sm:hidden flex h-full items-center min-w-20 justify-end">
+            <CgMenuRight
+              onClick={toggleMenu}
+              className="text-2xl hover:scale-110 duration-300 hover:text-blue-600"
+            />
+          </section>
+        )}
 
         {/* pop up menu */}
         {menu && (
@@ -72,7 +74,7 @@ function Navbar() {
               </Link>
 
               <ul className="flex flex-col space-y-8 w-full h-full items-center justify-center">
-                {filteredNavData.map((item) => (
+                {navData.map((item) => (
                   <Link
                     to={item.link}
                     key={item.id}

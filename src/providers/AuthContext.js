@@ -7,23 +7,28 @@ export const AuthProvider = ({ children }) => {
   const [username, setUsername] = useState(
     localStorage.getItem("username") || ""
   );
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("isAuthenticated") === "true"
+  );
 
   const validateSession = useCallback(async (page) => {
     try {
-      const response = await axios.post("/auth/validate", { username });
+      await axios.post("/auth/validate", { username });
       console.log("Validating session from " + page);
       setIsAuthenticated(true);
     } catch (error) {
       console.error("Session validation failed:", error);
+
       localStorage.removeItem("username");
       setUsername("");
+
+      localStorage.setItem("isAuthenticated", "false");
       setIsAuthenticated(false);
     }
   }, [username]);
 
   useEffect(() => {
-    validateSession();
+    validateSession("provider");
   }, [validateSession]);
 
   const login = async (email, password) => {
@@ -35,22 +40,33 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.setItem("username", response.data.userData.username);
       setUsername(response.data.userData.username);
+
+      localStorage.setItem("isAuthenticated", "true");
       setIsAuthenticated(true);
+
     } catch (error) {
+
       console.error("Login failed:", error);
       throw error;
+
     }
   };
 
   const logout = async () => {
     try {
       await axios.post("/auth/logout", { username });
+
       localStorage.removeItem("username");
       setUsername("");
+
+      localStorage.setItem("isAuthenticated", "false");
       setIsAuthenticated(false);
+
     } catch (error) {
+
       console.error("Logout failed:", error);
       throw error;
+
     }
   };
 
