@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   const validateSession = useCallback(async (page) => {
     try {
       await axios.post("/auth/validate", { username });
-      console.log("Validating session from " + page);
+
       setIsAuthenticated(true);
     } catch (error) {
       console.error("Session validation failed:", error);

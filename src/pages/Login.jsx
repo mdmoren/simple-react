@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../providers/AuthContext";
 
 export default function Login() {
@@ -25,17 +25,13 @@ export default function Login() {
   }
 
   if (isAuthenticated) {
-    return (
-      <div className="min-h-screen pt-20">
-        <h1 className="text-center">You are already logged in.</h1>
-      </div>
-    );
+    return <Navigate to="/" />;
   }
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen pt-20">
-      <div className="max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
-        <h1 className="text-center text-2xl mb-4">Login Page</h1>
+    <div className="flex flex-col items-center justify-start min-h-screen pt-20 px-4">
+      <div className="flex flex-col max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
+        <h1 className="text-center text-2xl mb-4">WELCOME</h1>
 
         <div className="space-y-4 mb-6">
           <div>
@@ -71,7 +67,6 @@ export default function Login() {
             />
           </div>
 
-          {error && <h1>error message</h1>}
         </div>
 
         <div className="flex items-center justify-between">
@@ -90,6 +85,12 @@ export default function Login() {
           </button>
         </div>
       </div>
+
+      {error && (
+        <div className="flex flex-col max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
+          <h1 className="text-center text-red-600">error message</h1>
+        </div>
+      )}
     </div>
   );
 }
