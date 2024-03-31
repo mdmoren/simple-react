@@ -71,7 +71,7 @@ export default function Login() {
 
         <div className="flex items-center justify-between">
           <Link
-            to="/login"
+            to="/forgot-password"
             className="inline-block align-baseline font-bold text-sm bg-gradient-to-r from-blue-600 to-purple-700 bg-clip-text text-transparent hover:text-purple-700 duration-300"
           >
             Forgot Password?

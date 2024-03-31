@@ -70,8 +70,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const forgotPassword = async (email) => {
+    try {
+      await axios.post("/auth/forgotPassword", { email });
+
+    } catch (error) {
+      console.error("Failed to send reset code:", error);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, username, login, logout, validateSession }}>
+    <AuthContext.Provider value={{ isAuthenticated, username, login, logout, validateSession, forgotPassword}}>
       {children}
     </AuthContext.Provider>
   );
