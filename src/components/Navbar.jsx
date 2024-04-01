@@ -19,15 +19,14 @@ function Navbar() {
 
   return (
     <div className="fixed w-full p-4">
-      <nav className="flex justify-between h-14 px-5 shadow-md rounded-md">
-        {/* title section */}
+      <nav className="flex justify-between h-14 px-5 shadow-md rounded-md bg-white">
+
         <Link to="/">
           <section className="flex h-full items-center min-w-20">
-            <h1 className="text-xl">REACT</h1>
+            <h1 className="text-xl">TITLE</h1>
           </section>
         </Link>
 
-        {/* links and utility */}
         {isAuthenticated && (
           <section className="hidden sm:flex">
             <ul className="flex h-full items-center space-x-4">
@@ -52,7 +51,6 @@ function Navbar() {
           <FaReact className="text-2xl text-blue-600" />
         </section>
 
-        {/* menu button */}
         {isAuthenticated && (
           <section className="sm:hidden flex h-full items-center min-w-20 justify-end">
             <CgMenuRight
@@ -62,7 +60,6 @@ function Navbar() {
           </section>
         )}
 
-        {/* pop up menu */}
         {menu && (
           <div className="fixed top-0 left-0 flex w-full h-full sm:hidden p-[10px]">
             <section className="w-full bg-white shadow-md rounded-md">

@@ -1,11 +1,21 @@
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../providers/AuthContext";
+import InputField from "../components/InputField";
+
+import {
+  FaLock,
+  FaUser,
+  FaEye,
+  FaEyeSlash,
+  FaLongArrowAltRight,
+} from "react-icons/fa";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { isAuthenticated, login } = useAuth();
 
   async function handleLogin() {
@@ -36,65 +46,71 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen pt-20 px-4">
-      <div className="flex flex-col max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
-        <h1 className="text-center text-2xl mb-4">WELCOME</h1>
+      <div className="flex flex-col bg-white max-w-md w-full shadow-md rounded-md space-y-6 px-8 pt-6 pb-8 m-8">
+        
+        <section className="border-gray-100 border-b-2 pb-4">
+          <h1 className="text-center text-3xl font-bold text-gray-500">
+            Welcome
+          </h1>
+        </section>
 
-        <div className="space-y-4 mb-6">
-          <div>
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="username"
+        <InputField
+          label="Username"
+          type="text"
+          value={username}
+          onChange={handleUsernameChange}
+          icon={FaUser}
+        />
+
+        <InputField
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          value={password}
+          onChange={handlePasswordChange}
+          icon={FaLock} // Leading icon
+          additionalChildren={
+            <section onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? (
+                <FaEyeSlash className="text-2xl ml-2 text-gray-300 hover:text-gray-400 hover:scale-105 duration-500" />
+              ) : (
+                <FaEye className="text-2xl ml-2 text-gray-300 hover:text-gray-400 hover:scale-105 duration-500" />
+              )}
+            </section>
+          }
+        />
+
+        <div className="flex justify-between border-gray-100 border-t-2 pt-4">
+          <section className="flex flex-col justify-between">
+            <h1 className="text-2xl font-bold text-gray-500">Login</h1>
+            <Link
+              to="/forgot-password"
+              className="text-sm font-bold text-gray-400 hover:text-gray-500 duration-500 outline-none"
             >
-              Username
-            </label>
-            <input
-              className="shadow appearance-none border-b-2 border-white hover:border-blue-500 rounded focus:border-white focus:outline-blue-500 outline-purple-700 w-full py-2 px-3 text-gray-700 leading-tight duration-300"
-              id="username"
-              type="username"
-              placeholder=""
-              value={username}
-              onChange={handleUsernameChange}
-            />
-          </div>
-          <div>
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="password"
-            >
-              Password
-            </label>
-            <input
-              className="shadow appearance-none border-b-2 border-white hover:border-purple-600 rounded focus:border-white focus:outline-blue-500 outline-purple-700 w-full py-2 px-3 text-gray-700 leading-tight duration-300"
-              id="password"
-              type="password"
-              placeholder="•••••••••"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-          </div>
-
-        </div>
-
-        <div className="flex items-center justify-between">
-          <Link
-            to="/forgot-password"
-            className="inline-block align-baseline font-bold text-sm bg-gradient-to-r from-blue-600 to-purple-700 bg-clip-text text-transparent hover:text-purple-700 duration-300"
-          >
-            Forgot Password?
-          </Link>
+              Forgot Password?
+            </Link>
+          </section>
           <button
             disabled={!isPasswordValid}
-            className={`bg-gradient-to-r ${isPasswordValid ? 'from-purple-700 to-blue-500 hover:from-purple-700 hover:to-purple-600' : 'bg-gray-400 cursor-not-allowed'} text-white font-bold py-2 px-8 rounded-md focus:outline-none shadow-black hover:shadow-lg duration-300 transition-all`}
+            className={`flex rounded-full w-20 h-20 items-center justify-center duration-500 outline-blue-200
+            ${
+              isPasswordValid
+                ? "bg-green-200 hover:bg-green-300 group"
+                : "bg-gray-200 cursor-not-allowed"
+            }
+            `}
             type="button"
             onClick={handleLogin}
           >
-            Log In
+            <FaLongArrowAltRight className="text-4xl text-gray-400 group-hover:text-gray-500  duration-500" />
           </button>
         </div>
       </div>
 
       {error && (
-        <div onClick={acknowledgeError} className="flex flex-col max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
+        <div
+          onClick={acknowledgeError}
+          className="flex flex-col bg-white max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8"
+        >
           <h1 className="text-center text-red-600">error message</h1>
         </div>
       )}

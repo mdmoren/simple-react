@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { IoReturnDownBack } from "react-icons/io5";
+
 import { useAuth } from "../providers/AuthContext";
+import { MdEmail } from "react-icons/md";
+
+import InputField from "../components/InputField";
+import { FaLongArrowAltRight, FaLongArrowAltLeft } from "react-icons/fa";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -12,7 +16,7 @@ export default function ForgotPassword() {
   async function handleResetPassword() {
     try {
       await forgotPassword(email);
-      navigate("/reset-password")
+      navigate("/reset-password");
     } catch (error) {
       setError("Error");
     }
@@ -23,7 +27,6 @@ export default function ForgotPassword() {
   }
 
   function validateEmail(email) {
-    // Regular expression for email validation
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
@@ -36,56 +39,60 @@ export default function ForgotPassword() {
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen pt-20 px-4">
-      <div className="flex flex-col max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
-        <h1 className="text-center text-2xl mb-4">Forgot Password?</h1>
+      <div className="flex flex-col bg-white max-w-md w-full shadow-md rounded-md space-y-6 px-8 pt-6 pb-8 m-8">
+        <section className="flex items-center border-gray-100 border-b-2 pb-4">
 
-        <div className="space-y-4 mb-6">
-          <div>
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              className="shadow appearance-none border-b-2 border-white hover:border-blue-500 rounded focus:border-white focus:outline-blue-500 outline-purple-700 w-full py-2 px-3 text-gray-700 leading-tight duration-300"
-              id="email"
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={handleEmailChange}
-            />
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <Link
-            to="/login"
-            className="flex items-center align-baseline font-bold text-sm bg-gradient-to-r from-blue-600 to-purple-700 bg-clip-text text-transparent hover:text-purple-700 duration-300"
-          >
-            Back
-            <IoReturnDownBack className="ml-4 text-black text-2xl" />
+        <Link to="/login">
+            <FaLongArrowAltLeft className="text-2xl w-10 text-gray-400 hover:text-gray-500"/>
           </Link>
+
+          <h1 className="text-center text-2xl font-bold text-gray-500 flex-grow mr-10">
+            Forgot your password?
+          </h1>
+        </section>
+
+        <InputField
+          label="Email"
+          type="text"
+          value={email}
+          onChange={handleEmailChange}
+          icon={MdEmail}
+        />
+
+        <div className="flex justify-between border-gray-100 border-t-2 pt-4">
+          <section className="flex flex-col justify-between">
+            <h1 className="text-2xl font-bold text-gray-500">
+              Send reset code
+            </h1>
+            <Link
+              to="/reset-password"
+              className="text-sm font-bold text-gray-400 hover:text-gray-500 duration-500 outline-none"
+            >
+              Have a code?
+            </Link>
+          </section>
           <button
             disabled={!isEmailValid}
-            className={`bg-gradient-to-r ${isEmailValid ? 'from-purple-700 to-blue-500 hover:from-purple-700 hover:to-purple-600' : 'bg-gray-400 cursor-not-allowed'} text-white font-bold py-2 px-8 rounded-md focus:outline-none shadow-black hover:shadow-lg duration-300 transition-all`}
+            className={`flex rounded-full w-20 h-20 items-center justify-center duration-500 outline-blue-200
+            ${
+              isEmailValid
+                ? "bg-green-200 hover:bg-green-300 group"
+                : "bg-gray-200 cursor-not-allowed"
+            }
+            `}
             type="button"
             onClick={handleResetPassword}
           >
-            Submit
+            <FaLongArrowAltRight className="text-4xl text-gray-400 group-hover:text-gray-500  duration-500" />
           </button>
         </div>
-
-        <Link
-            to="/reset-password"
-            className="font-bold text-sm text-center mt-8 text-gray-400"
-          >
-            Have a code?
-          </Link>
       </div>
 
       {error && (
-        <div onClick={acknowledgeError} className="flex flex-col max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
+        <div
+          onClick={acknowledgeError}
+          className="flex flex-col bg-white max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8"
+        >
           <h1 className="text-center text-red-600">{error}</h1>
         </div>
       )}
