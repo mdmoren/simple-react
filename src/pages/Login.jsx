@@ -24,9 +24,15 @@ export default function Login() {
     setPassword(e.target.value);
   }
 
+  function acknowledgeError() {
+    setError(false);
+  }
+
   if (isAuthenticated) {
     return <Navigate to="/" />;
   }
+
+  const isPasswordValid = password.length >= 5 && username !== "";
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen pt-20 px-4">
@@ -77,7 +83,8 @@ export default function Login() {
             Forgot Password?
           </Link>
           <button
-            className="bg-gradient-to-r from-purple-700 to-blue-500 hover:from-purple-700 hover:to-purple-600 text-white font-bold py-2 px-8 rounded-md focus:outline-none shadow-black hover:shadow-lg duration-300 transition-all"
+            disabled={!isPasswordValid}
+            className={`bg-gradient-to-r ${isPasswordValid ? 'from-purple-700 to-blue-500 hover:from-purple-700 hover:to-purple-600' : 'bg-gray-400 cursor-not-allowed'} text-white font-bold py-2 px-8 rounded-md focus:outline-none shadow-black hover:shadow-lg duration-300 transition-all`}
             type="button"
             onClick={handleLogin}
           >
@@ -87,7 +94,7 @@ export default function Login() {
       </div>
 
       {error && (
-        <div className="flex flex-col max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
+        <div onClick={acknowledgeError} className="flex flex-col max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
           <h1 className="text-center text-red-600">error message</h1>
         </div>
       )}

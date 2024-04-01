@@ -1,4 +1,10 @@
-import React, { createContext, useState, useEffect, useContext, useCallback } from "react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import axios from "axios";
 
 const AuthContext = createContext();
@@ -11,21 +17,24 @@ export const AuthProvider = ({ children }) => {
     localStorage.getItem("isAuthenticated") === "true"
   );
 
-  const validateSession = useCallback(async (page) => {
-    try {
-      await axios.post("/auth/validate", { username });
+  const validateSession = useCallback(
+    async (page) => {
+      try {
+        await axios.post("/auth/validate", { username });
 
-      setIsAuthenticated(true);
-    } catch (error) {
-      console.error("Session validation failed:", error);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error("Session validation failed:", error);
 
-      localStorage.removeItem("username");
-      setUsername("");
+        localStorage.removeItem("username");
+        setUsername("");
 
-      localStorage.setItem("isAuthenticated", "false");
-      setIsAuthenticated(false);
-    }
-  }, [username]);
+        localStorage.setItem("isAuthenticated", "false");
+        setIsAuthenticated(false);
+      }
+    },
+    [username]
+  );
 
   useEffect(() => {
     validateSession("provider");
@@ -43,12 +52,9 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.setItem("isAuthenticated", "true");
       setIsAuthenticated(true);
-
     } catch (error) {
-
       console.error("Login failed:", error);
       throw error;
-
     }
   };
 
@@ -61,27 +67,42 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.setItem("isAuthenticated", "false");
       setIsAuthenticated(false);
-
     } catch (error) {
-
       console.error("Logout failed:", error);
       throw error;
-
     }
   };
 
   const forgotPassword = async (email) => {
     try {
       await axios.post("/auth/forgotPassword", { email });
-
     } catch (error) {
       console.error("Failed to send reset code:", error);
       throw error;
     }
   };
 
+  const resetPassword = async (code, newPassword) => {
+    try {
+      await axios.post("/auth/resetPassword", { code, newPassword });
+    } catch (error) {
+      console.error("Failed to reset password:", error);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, username, login, logout, validateSession, forgotPassword}}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        username,
+        login,
+        logout,
+        validateSession,
+        forgotPassword,
+        resetPassword,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
