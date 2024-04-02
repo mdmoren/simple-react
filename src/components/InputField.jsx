@@ -15,7 +15,7 @@ function InputField({
       className={`relative flex items-center p-3 rounded-md border-2 border-gray-300 bg-white group
         ${
           isFocused
-            ? "border-blue-300"
+            ? " border-blue-400"
             : value
             ? "border-green-300"
             : "hover:border-orange-300"

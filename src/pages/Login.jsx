@@ -91,7 +91,7 @@ export default function Login() {
           </section>
           <button
             disabled={!isPasswordValid}
-            className={`flex rounded-full w-20 h-20 items-center justify-center duration-500 outline-blue-300
+            className={`flex rounded-full w-20 h-20 items-center justify-center duration-500 outline-blue-400
             ${
               isPasswordValid
                 ? "bg-green-300 hover:bg-green-400 group"

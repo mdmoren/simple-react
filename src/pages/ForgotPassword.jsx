@@ -73,7 +73,7 @@ export default function ForgotPassword() {
           </section>
           <button
             disabled={!isEmailValid}
-            className={`flex rounded-full w-20 h-20 items-center justify-center duration-500 outline-blue-300
+            className={`flex rounded-full w-20 h-20 items-center justify-center duration-500 outline-blue-400
             ${
               isEmailValid
                 ? "bg-green-300 hover:bg-green-400 group"
