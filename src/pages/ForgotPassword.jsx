@@ -40,13 +40,13 @@ export default function ForgotPassword() {
   return (
     <div className="flex flex-col items-center justify-start min-h-screen pt-20 px-4">
       <div className="flex flex-col bg-white max-w-md w-full shadow-md rounded-md space-y-6 px-8 pt-6 pb-8 m-8">
-        <section className="flex items-center border-gray-100 border-b-2 pb-4">
+        <section className="flex items-center border-gray-300 border-b-2 pb-4">
 
         <Link to="/login">
-            <FaLongArrowAltLeft className="text-2xl w-10 text-gray-400 hover:text-gray-500"/>
+            <FaLongArrowAltLeft className="text-2xl w-10 text-gray-500 hover:text-gray-600"/>
           </Link>
 
-          <h1 className="text-center text-2xl font-bold text-gray-500 flex-grow mr-10">
+          <h1 className="text-center text-2xl font-bold text-gray-600 flex-grow mr-10">
             Forgot your password?
           </h1>
         </section>
@@ -59,31 +59,31 @@ export default function ForgotPassword() {
           icon={MdEmail}
         />
 
-        <div className="flex justify-between border-gray-100 border-t-2 pt-4">
+        <div className="flex justify-between border-gray-300 border-t-2 pt-4">
           <section className="flex flex-col justify-between">
-            <h1 className="text-2xl font-bold text-gray-500">
+            <h1 className="text-2xl font-bold text-gray-600">
               Send reset code
             </h1>
             <Link
               to="/reset-password"
-              className="text-sm font-bold text-gray-400 hover:text-gray-500 duration-500 outline-none"
+              className="text-sm font-bold text-gray-500 hover:text-gray-600 duration-500 outline-none"
             >
               Have a code?
             </Link>
           </section>
           <button
             disabled={!isEmailValid}
-            className={`flex rounded-full w-20 h-20 items-center justify-center duration-500 outline-blue-200
+            className={`flex rounded-full w-20 h-20 items-center justify-center duration-500 outline-blue-300
             ${
               isEmailValid
-                ? "bg-green-200 hover:bg-green-300 group"
-                : "bg-gray-200 cursor-not-allowed"
+                ? "bg-green-300 hover:bg-green-400 group"
+                : "bg-gray-300 cursor-not-allowed"
             }
             `}
             type="button"
             onClick={handleResetPassword}
           >
-            <FaLongArrowAltRight className="text-4xl text-gray-400 group-hover:text-gray-500  duration-500" />
+            <FaLongArrowAltRight className="text-4xl text-gray-500 group-hover:text-gray-600  duration-500" />
           </button>
         </div>
       </div>

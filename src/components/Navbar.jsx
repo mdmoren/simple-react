@@ -34,7 +34,7 @@ function Navbar() {
                 <Link
                   to={item.link}
                   key={item.id}
-                  className="text-lg font-semibold hover:scale-105 duration-300 text-gray-500 hover:text-black"
+                  className="text-lg font-semibold hover:scale-105 duration-300 text-gray-600 hover:text-black"
                 >
                   {item.label}
                 </Link>
