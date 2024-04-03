@@ -38,9 +38,9 @@ function AdminPage() {
                   <th className="px-4 py-2 text-left text-gray-600">ID</th>
                   <th className="px-4 py-2 text-left text-gray-600">Username</th>
                   <th className="px-4 py-2 text-left text-gray-600">Email</th>
-                  <th className="px-4 py-2 text-left text-gray-600">First Name</th>
-                  <th className="px-4 py-2 text-left text-gray-600">Last Name</th>
-                  <th className="px-4 py-2 text-left text-gray-600">Roles</th>
+                  <th className="px-4 py-2 text-left text-gray-600">First</th>
+                  <th className="px-4 py-2 text-left text-gray-600">Last</th>
+                  <th className="px-4 py-2 text-left text-gray-600">Role</th>
                   <th className="px-4 py-2 text-left text-gray-600">Status</th>
                 </tr>
               </thead>
@@ -66,9 +66,9 @@ function AdminPage() {
                   <p><span className="font-semibold">ID:</span> {user.id}</p>
                   <p><span className="font-semibold">Username:</span> {user.username}</p>
                   <p><span className="font-semibold">Email:</span> {user.email}</p>
-                  <p><span className="font-semibold">First Name:</span> {user.firstName}</p>
-                  <p><span className="font-semibold">Last Name:</span> {user.lastName}</p>
-                  <p><span className="font-semibold">Roles:</span> {user.roles}</p>
+                  <p><span className="font-semibold">First:</span> {user.firstName}</p>
+                  <p><span className="font-semibold">Last:</span> {user.lastName}</p>
+                  <p><span className="font-semibold">Role:</span> {user.roles}</p>
                   <p><span className="font-semibold">Status:</span> {user.status}</p>
                 </div>
               ))}
