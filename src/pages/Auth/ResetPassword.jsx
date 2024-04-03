@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../providers/AuthContext";
+import { useAuth } from "../../providers/AuthContext";
 
-import InputField from "../components/InputField";
+import InputField from "../../components/InputField";
 import {
   FaLock,
   FaEye,
@@ -134,12 +134,10 @@ export default function ResetPassword() {
         <div className="flex justify-between border-gray-300 border-t-2 pt-4">
           <section className="flex flex-col justify-between">
             <h1 className="text-2xl font-bold text-gray-600">Reset</h1>
-            {/* <Link
-              to="/"
-              className="text-sm font-bold text-gray-500 hover:text-gray-600 duration-500 outline-none"
-            >
-              Can't find your code?
-            </Link> */}
+            <p className="text-sm font-semibold text-gray-500">
+              Password must be at least 8 characters long and must include at
+              least one number
+            </p>
           </section>
           <button
             disabled={
@@ -147,9 +145,11 @@ export default function ResetPassword() {
               newPassword.length < 8 ||
               confirmPassword.length < 8
             }
-            className={`flex rounded-full w-20 h-20 items-center justify-center duration-500 outline-blue-400
+            className={`flex rounded-full min-w-20 h-20 items-center justify-center duration-500 outline-blue-400
             ${
               !codes.some((code) => code === "") &&
+              newPassword === confirmPassword &&
+              /\d/.test(newPassword) &&
               newPassword.length >= 8 &&
               confirmPassword.length >= 8
                 ? "bg-green-300 hover:bg-green-400 group"
@@ -175,7 +175,7 @@ export default function ResetPassword() {
 
       {success && (
         <div className="flex flex-col items-center max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8 bg-white">
-          <h1 className="text-2xl font-bold text-green-500 border-gray-300 border-b-2 pb-4 mb-4">
+          <h1 className="w-full text-center text-2xl font-bold text-green-500 border-gray-300 border-b-2 pb-4 mb-4">
             Password changed successfully
           </h1>
           <Link

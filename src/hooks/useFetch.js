@@ -11,8 +11,8 @@ export const useFetch = (url) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Ensure the session is valid before attempting to fetch data
-        await validateSession("useFetch");
+
+        await validateSession();
 
         if (!isAuthenticated) {
           throw new Error("User not authenticated");
@@ -23,9 +23,9 @@ export const useFetch = (url) => {
         setError(null);
       } catch (error) {
         try {
-          // Attempt to refresh the token
+
           await axios.post("auth/refreshToken", { username });
-          // Retry the fetch after refreshing the token
+
           const response = await axios.get(url, { withCredentials: true });
           setData(response.data);
           setError(null);

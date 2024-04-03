@@ -15,7 +15,7 @@ function InputField({
       className={`relative flex items-center p-3 rounded-md border-2 border-gray-300 bg-white group
         ${
           isFocused
-            ? " border-blue-300"
+            ? " border-blue-400"
             : value
             ? "border-green-300"
             : "hover:border-orange-300"
@@ -27,7 +27,7 @@ function InputField({
 
       <div className="flex-grow">
         <h1
-          className={`absolute z-10 -top-3 left-3 bg-white  ${
+          className={`absolute -top-3 left-3 bg-white  ${
             isFocused || value
               ? "text-gray-600 translate-y-0 text-sm px-2"
               : "text-gray-500 translate-y-8 translate-x-10"
@@ -36,7 +36,7 @@ function InputField({
           {label}
         </h1>
         <input
-          className="w-full h-10 pl-2 bg-transparent outline-none z-20"
+          className="w-full h-10 pl-2 bg-transparent outline-none"
           id={label.toLowerCase()}
           type={type}
           placeholder=""

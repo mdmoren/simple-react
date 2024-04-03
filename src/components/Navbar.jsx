@@ -22,7 +22,7 @@ function Navbar() {
   }
 
   return (
-    <div className="fixed w-full">
+    <div className="fixed w-full z-50">
       <nav className="flex justify-between h-14 px-5 shadow-md  bg-white">
         <Link to="/">
           <section className="flex h-full items-center min-w-20">
@@ -64,7 +64,7 @@ function Navbar() {
         )}
 
         {menu && (
-          <div className="fixed top-0 left-0 flex w-full h-full sm:hidden p-[10px]">
+          <div className="fixed top-0 left-0 flex w-full h-full sm:hidden p-4">
             <section className="w-full bg-white shadow-md rounded-md">
               <Link to="/" onClick={toggleMenu}>
                 <section className="text-3xl w-full text-center mt-5">

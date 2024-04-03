@@ -5,10 +5,12 @@ import { ProtectedRoute } from "./utils/ProtectedRoute";
 import { AdminRoute } from "./utils/AdminRoute";
 
 import Home from "./pages/Home";
-import Profile from "./pages/Profile";
-import Login from "./pages/Login";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile/Profile";
+import ChangePassword from "./pages/Profile/ChangePassword";
+import ChangeEmail from "./pages/Profile/ChangeEmail";
+import Login from "./pages/Auth/Login";
+import ForgotPassword from "./pages/Auth/ForgotPassword";
+import ResetPassword from "./pages/Auth/ResetPassword";
 import AdminPage from "./pages/AdminPage";
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/changePassword" element={<ChangePassword />} />
+          <Route path="/profile/changeEmail" element={<ChangeEmail />} />\
           <Route element={<AdminRoute />}>
             <Route path="/admin" element={<AdminPage />} />
           </Route>

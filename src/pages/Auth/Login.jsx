@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { useAuth } from "../providers/AuthContext";
-import InputField from "../components/InputField";
+import { useAuth } from "../../providers/AuthContext";
+import InputField from "../../components/InputField";
 
 import {
   FaLock,

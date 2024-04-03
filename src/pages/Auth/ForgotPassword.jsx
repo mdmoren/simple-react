@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useAuth } from "../providers/AuthContext";
+import { useAuth } from "../../providers/AuthContext";
 import { MdEmail } from "react-icons/md";
 
-import InputField from "../components/InputField";
+import InputField from "../../components/InputField";
 import { FaLongArrowAltRight, FaLongArrowAltLeft } from "react-icons/fa";
 
 export default function ForgotPassword() {

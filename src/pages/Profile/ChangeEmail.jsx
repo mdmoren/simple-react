@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useAuth } from "../providers/AuthContext";
+import { useAuth } from "../../providers/AuthContext";
 
-function Home() {
+function ChangeEmail() {
   const { validateSession } = useAuth();
 
   useEffect(() => {
@@ -14,15 +14,13 @@ function Home() {
         
         <section className="flex items-center justify-between border-gray-300 border-b-2 pb-4">
           <h1 className="text-center text-3xl font-bold text-gray-600">
-            Home Page
+            Change Email Request
           </h1>
         </section>
-
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat odit sapiente, omnis saepe consequatur totam eaque unde. Sint fuga ut aliquid dolorem unde necessitatibus voluptates quod iusto, molestias porro temporibus.</p>
 
       </div>
     </div>
   );
 }
 
-export default Home;
+export default ChangeEmail;
