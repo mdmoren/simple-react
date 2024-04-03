@@ -16,11 +16,14 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     localStorage.getItem("isAuthenticated") === "true"
   );
-
+  const [role, setRole] = useState(localStorage.getItem("role") || "");
   const validateSession = useCallback(
-    async (page) => {
+    async () => {
       try {
-        await axios.post("/auth/validate", { username });
+        const response = await axios.post("/auth/validate", { username });
+
+        localStorage.setItem("role", response.data.role);
+        setRole(response.data.role);
 
         setIsAuthenticated(true);
       } catch (error) {
@@ -37,18 +40,21 @@ export const AuthProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    validateSession("provider");
+    validateSession();
   }, [validateSession]);
 
-  const login = async (email, password) => {
+  const login = async (username, password) => {
     try {
       const response = await axios.post("/auth/login", {
-        username: email,
+        username: username,
         password: password,
       });
 
-      localStorage.setItem("username", response.data.userData.username);
-      setUsername(response.data.userData.username);
+      localStorage.setItem("username", response.data.username);
+      setUsername(response.data.username);
+
+      localStorage.setItem("role", response.data.role);
+      setRole(response.data.role);
 
       localStorage.setItem("isAuthenticated", "true");
       setIsAuthenticated(true);
@@ -64,6 +70,9 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.removeItem("username");
       setUsername("");
+
+      localStorage.removeItem("role");
+      setRole("");
 
       localStorage.setItem("isAuthenticated", "false");
       setIsAuthenticated(false);
@@ -96,6 +105,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         isAuthenticated,
         username,
+        role,
         login,
         logout,
         validateSession,

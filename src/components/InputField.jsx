@@ -42,7 +42,7 @@ function InputField({
           placeholder=""
           value={value}
           onChange={onChange}
-          autocomplete="off"
+          autoComplete="off"
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         />

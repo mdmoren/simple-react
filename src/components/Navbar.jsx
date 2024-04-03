@@ -5,7 +5,7 @@ import { FaReact } from "react-icons/fa";
 import { useAuth } from "../providers/AuthContext";
 
 function Navbar() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, role } = useAuth();
   const [menu, setMenu] = useState(false);
 
   function toggleMenu() {
@@ -13,14 +13,17 @@ function Navbar() {
   }
 
   const navData = [
-    { id: 1, link: "/", label: "Home", requiresAuth: true },
-    { id: 2, link: "/profile", label: "Profile", requiresAuth: true },
+    { id: 1, link: "/", label: "Home" },
+    { id: 3, link: "/profile", label: "Profile" },
   ];
+
+  if (role === "ROLE_ADMIN") {
+    navData.splice(1, 0, { id: 2, link: "/admin", label: "Admin" });
+  }
 
   return (
     <div className="fixed w-full p-4">
       <nav className="flex justify-between h-14 px-5 shadow-md rounded-md bg-white">
-
         <Link to="/">
           <section className="flex h-full items-center min-w-20">
             <h1 className="text-xl">TITLE</h1>
