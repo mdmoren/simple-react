@@ -93,7 +93,7 @@ export default function ResetPassword() {
               <input
                 key={index}
                 ref={(ref) => (inputRefs.current[index] = ref)}
-                className={`w-12 h-12 text-2xl text-center rounded-md border-2 outline-none border-gray-300 focus:border-blue-400
+                className={`w-10 sm:w-12 h-10 sm:h-12 text-2xl text-center rounded-md border-2 outline-none border-gray-300 focus:border-blue-300
                 ${code ? "border-green-300" : "hover:border-orange-300"}
                 `}
                 type="text"

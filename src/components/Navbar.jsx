@@ -22,8 +22,8 @@ function Navbar() {
   }
 
   return (
-    <div className="fixed w-full p-4">
-      <nav className="flex justify-between h-14 px-5 shadow-md rounded-md bg-white">
+    <div className="fixed w-full">
+      <nav className="flex justify-between h-14 px-5 shadow-md  bg-white">
         <Link to="/">
           <section className="flex h-full items-center min-w-20">
             <h1 className="text-xl">TITLE</h1>

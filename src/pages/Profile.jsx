@@ -26,7 +26,6 @@ function Profile() {
           <BsThreeDots className="text-2xl hover:scale-110 duration-300 hover:text-blue-600" />
         </section>
 
-        <div className="flex h-52">
         {loading ? (
           <div className="flex justify-center items-center w-full h-full">
             <RiLoader2Fill className="text-3xl animate-spin"/>
@@ -52,18 +51,14 @@ function Profile() {
             </div>
           )
         )}
-        </div>
 
-        <div className="flex justify-between border-gray-300 border-t-2 pt-4">
-          <section className="flex flex-col justify-between">
-            <h1 className="text-2xl font-bold text-gray-600">Log out</h1>
-          </section>
-          <button
-            className="flex rounded-full w-20 h-20 items-center justify-center duration-500 outline-blue-400 bg-red-300 hover:bg-red-400 group"
-            type="button"
-            onClick={handleLogout}
+        <div className="flex border-gray-300 border-t-2 pt-4 justify-end">
+          <button className="flex justify-center items-center rounded-md outline-blue-400 bg-red-300 hover:bg-red-400 duration-500 p-2"
+          type="button"
+          onClick={handleLogout}
           >
-            <CgLogOut className="text-4xl text-gray-500 group-hover:text-gray-600 duration-500" />
+            <h1 className="font-semibold">Log out</h1>
+            <CgLogOut className="ml-2 text-2xl"/>
           </button>
         </div>
       </div>
