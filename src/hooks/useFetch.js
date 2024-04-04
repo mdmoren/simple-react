@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuth } from "../providers/AuthContext";
 
 export const useFetch = (url) => {
-  const { validateSession, isAuthenticated, username } = useAuth();
+  const { validateSession, isAuthenticated, refreshToken } = useAuth();
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -24,7 +24,7 @@ export const useFetch = (url) => {
       } catch (error) {
         try {
 
-          await axios.post("auth/refreshToken", { username });
+          await refreshToken();
 
           const response = await axios.get(url, { withCredentials: true });
           setData(response.data);
@@ -38,7 +38,7 @@ export const useFetch = (url) => {
     };
 
     fetchData();
-  }, [url, validateSession, isAuthenticated, username]);
+  }, [url, validateSession, isAuthenticated, refreshToken]);
 
   return { data, error, loading };
 };

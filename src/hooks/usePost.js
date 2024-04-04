@@ -1,41 +1,48 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../providers/AuthContext";
 
-export const usePost = (url) => {
-  const { validateSession, isAuthenticated, username } = useAuth();
-  const [data, setData] = useState(null);
-  const [postError, setPostError] = useState(null);
+const usePost = () => {
+  const { validateSession, isAuthenticated, refreshToken } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+  const [data, setData] = useState(null);
 
-    const makeRequest = useCallback(async (requestBody) => {
-      try {
+  const postData = async (url, requestData) => {
+    setLoading(true);
+    try {
+      await validateSession();
 
-        setLoading(true);
-
-        await validateSession();
-
-        if (!isAuthenticated) {
-          throw new Error("User not authenticated");
-        }
-
-        const response = await axios.post(url, requestBody,{ withCredentials: true });
-        setData(response.data);
-        setPostError(null);
-      } catch (error) {
-        try {
-          await axios.post("auth/refreshToken", { username });
-
-          const response = await axios.post(url, requestBody,{ withCredentials: true });
-          setData(response.data);
-          setPostError(null);
-        } catch (refreshError) {
-            setPostError("Error: could not change your password. Please make sure your old password is correct.");
-        }
-      } finally {
-        setLoading(false);
+      if (!isAuthenticated) {
+        throw new Error("User not authenticated");
       }
-    }, [url,validateSession, isAuthenticated, username])
 
-  return { makeRequest, data, postError, loading };
+      const response = await axios.post(url, requestData, {
+        withCredentials: true,
+      });
+      setData(response.data);
+      setError("");
+      setSuccess("Success: Password updated.");
+    } catch (error) {
+      try {
+        // TODO fix this
+        await refreshToken();
+
+        const response = await axios.post(url, requestData, {
+          withCredentials: true,
+        });
+        setData(response.data);
+        setError("");
+        setSuccess("Success: Password updated.");
+      } catch (refreshError) {
+        setError("Unable to refresh token. Please log in again.");
+      }
+    }
+    setLoading(false);
+  };
+
+  return { loading, success, error, data, postData };
 };
+
+export default usePost;

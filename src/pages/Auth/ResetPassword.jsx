@@ -134,7 +134,7 @@ export default function ResetPassword() {
         <div className="flex justify-between border-gray-300 border-t-2 pt-4">
           <section className="flex flex-col justify-between">
             <h1 className="text-2xl font-bold text-gray-600">Reset</h1>
-            <p className="text-sm font-semibold text-gray-500">
+            <p className="text-sm font-semibold text-gray-500 pr-2">
               Password must be at least 8 characters long and must include at
               least one number
             </p>

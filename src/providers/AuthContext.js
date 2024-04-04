@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("isAuthenticated", "true");
       setIsAuthenticated(true);
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Login failed: ", error);
       throw error;
     }
   };
@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("isAuthenticated", "false");
       setIsAuthenticated(false);
     } catch (error) {
-      console.error("Logout failed:", error);
+      console.error("Logout failed: ", error);
       throw error;
     }
   };
@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await axios.post("/auth/forgotPassword", { email });
     } catch (error) {
-      console.error("Failed to send reset code:", error);
+      console.error("Failed to send reset code: ", error);
       throw error;
     }
   };
@@ -95,10 +95,20 @@ export const AuthProvider = ({ children }) => {
     try {
       await axios.post("/auth/resetPassword", { code, newPassword });
     } catch (error) {
-      console.error("Failed to reset password:", error);
+      console.error("Failed to reset password: ", error);
       throw error;
     }
   };
+
+  const refreshToken = async () => {
+    console.log("attempt to refresh")
+    try {
+      await axios.post("auth/refreshToken", { username });
+    } catch (error) {
+      console.error("Failed to refresh token: ", error);
+      throw error;
+    }
+  }
 
   return (
     <AuthContext.Provider
@@ -111,6 +121,7 @@ export const AuthProvider = ({ children }) => {
         validateSession,
         forgotPassword,
         resetPassword,
+        refreshToken
       }}
     >
       {children}
