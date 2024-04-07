@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAuth } from "../providers/AuthContext";
 
-function Home() {
+const Home = () => {
   const { validateSession } = useAuth();
 
   useEffect(() => {

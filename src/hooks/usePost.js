@@ -23,10 +23,9 @@ const usePost = () => {
       });
       setData(response.data);
       setError("");
-      setSuccess("Success: Password updated.");
+      setSuccess("Success");
     } catch (error) {
       try {
-        // TODO fix this
         await refreshToken();
 
         const response = await axios.post(url, requestData, {
@@ -34,7 +33,7 @@ const usePost = () => {
         });
         setData(response.data);
         setError("");
-        setSuccess("Success: Password updated.");
+        setSuccess("Success");
       } catch (refreshError) {
         setError("Unable to refresh token. Please log in again.");
       }

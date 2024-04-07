@@ -13,7 +13,7 @@ import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import AdminPage from "./pages/AdminPage";
 
-function App() {
+const App = () => {
   return (
     <div className="bg-gray-100">
       <Navbar />

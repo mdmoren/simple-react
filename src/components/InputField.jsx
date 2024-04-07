@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-function InputField({
+const InputField = ({
   label,
   type,
   value,
   onChange,
   icon: Icon,
   additionalChildren,
-}) {
+}) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -17,12 +17,12 @@ function InputField({
           isFocused
             ? " border-blue-400"
             : value
-            ? "border-green-300"
-            : "hover:border-orange-300"
+            ? "border-green-400"
+            : "hover:border-orange-400"
         }`}
     >
       {Icon && (
-        <Icon className="text-lg mr-2 text-gray-400 group-hover:text-gray-500 duration-500" />
+        <Icon className="text-lg mr-2 text-gray-300 group-hover:text-gray-500 duration-500" />
       )}
 
       <div className="flex-grow">
@@ -51,6 +51,6 @@ function InputField({
       {additionalChildren}
     </div>
   );
-}
+};
 
 export default InputField;

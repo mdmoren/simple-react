@@ -101,9 +101,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const refreshToken = async () => {
-    console.log("attempt to refresh")
     try {
-      await axios.post("auth/refreshToken", { username });
+      await axios.post("/auth/refreshToken", { username });
     } catch (error) {
       console.error("Failed to refresh token: ", error);
       throw error;

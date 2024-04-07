@@ -9,18 +9,13 @@ import { CgLogOut, CgClose } from "react-icons/cg";
 import { RiLoader2Fill } from "react-icons/ri";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
-function Profile() {
+const Profile = () => {
   const [editMenu, setEditMenu] = useState(false);
   const { data, error, loading } = useFetch("/user/myProfile");
   const { logout } = useAuth();
 
-  async function handleLogout() {
-    await logout();
-  }
-
-  function toggleEditMenu() {
-    setEditMenu(!editMenu);
-  }
+  const handleLogout = async () => await logout();
+  const toggleEditMenu = () => setEditMenu(!editMenu);
 
   if (error) {
     return <div className="pt-20 text-center min-h-screen">Error: {error}</div>;
@@ -35,25 +30,31 @@ function Profile() {
           </h1>
           {editMenu ? (
             <CgClose
-              className="text-2xl hover:scale-110 duration-300 text-gray-400 hover:text-red-600"
+              className="text-2xl hover:scale-110 duration-500 text-gray-600 hover:text-red-600"
               onClick={toggleEditMenu}
             />
           ) : (
             <BsThreeDots
-              className="text-2xl hover:scale-110 duration-300 text-gray-400 hover:text-blue-600"
+              className="text-2xl hover:scale-110 duration-500 text-gray-600 hover:text-blue-600"
               onClick={toggleEditMenu}
             />
           )}
           {editMenu && (
             <section className="absolute right-0 top-10 border-2 bg-white px-8 pt-6 pb-8 shadow-md rounded-md">
               <ul className="space-y-2">
-                <Link to="/profile/changePassword" className="group flex text-md font-semibold items-center justify-between text-gray-400 hover:text-gray-600 cursor-pointer">
+                <Link
+                  to="/profile/changePassword"
+                  className="group flex text-md font-semibold items-center justify-between text-gray-600 hover:text-blue-600 cursor-pointer duration-500"
+                >
                   <label className="w-full text-end">Change Password</label>
-                  <FaLongArrowAltRight className="mx-2 group-hover:translate-x-2 duration-300"/>
+                  <FaLongArrowAltRight className="mx-2 group-hover:translate-x-2  duration-500" />
                 </Link>
-                <Link  to="/profile/changeEmail" className="group flex text-md font-semibold items-center justify-between text-gray-400 hover:text-gray-600 cursor-pointer">
+                <Link
+                  to="/profile/changeEmail"
+                  className="group flex text-md font-semibold items-center justify-between text-gray-600 hover:text-blue-600 cursor-pointer duration-500"
+                >
                   <label className="w-full text-end">Change Email</label>
-                  <FaLongArrowAltRight className="mx-2 group-hover:translate-x-2 duration-300"/>
+                  <FaLongArrowAltRight className="mx-2 group-hover:translate-x-2 duration-500" />
                 </Link>
               </ul>
             </section>
@@ -88,7 +89,7 @@ function Profile() {
 
         <div className="flex border-gray-300 border-t-2 pt-4 justify-end">
           <button
-            className="flex justify-center items-center rounded-md outline-blue-400 bg-red-300 hover:bg-red-400 duration-500 p-2"
+            className="flex justify-center items-center rounded-md outline-blue-400 bg-red-400 hover:bg-red-400 duration-500 p-2"
             type="button"
             onClick={handleLogout}
           >
@@ -99,6 +100,6 @@ function Profile() {
       </div>
     </div>
   );
-}
+};
 
 export default Profile;

@@ -23,7 +23,6 @@ export const useFetch = (url) => {
         setError(null);
       } catch (error) {
         try {
-
           await refreshToken();
 
           const response = await axios.get(url, { withCredentials: true });

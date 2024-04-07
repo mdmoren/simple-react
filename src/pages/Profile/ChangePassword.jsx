@@ -13,40 +13,60 @@ import {
 
 import usePost from "../../hooks/usePost";
 
-function ChangePassword() {
+const ChangePassword = () => {
   const { validateSession } = useAuth();
-  const { loading, success, error, postData } = usePost();
+  const { loading, success, postData } = usePost();
 
-  const [oldPassword, setOldPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     validateSession();
   }, [validateSession]);
 
-  const handleOldPasswordChange = (e) => setOldPassword(e.target.value);
+  const handlecurrentPasswordChange = (e) => setCurrentPassword(e.target.value);
   const handleNewPasswordChange = (e) => setNewPassword(e.target.value);
   const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
 
-  const handleChangePassword = async () => {
-    await postData("/user/updatePassword", { oldPassword, newPassword });
+  const acknowledgeError = () => setErrorMessage("");
 
-    setOldPassword("");
+  const allowSubmit = () => {
+    return (
+      newPassword === confirmPassword &&
+      !(currentPassword === newPassword) &&
+      /\d/.test(newPassword) &&
+      currentPassword.length >= 1 &&
+      newPassword.length >= 8 &&
+      confirmPassword.length >= 8
+    );
+  };
+
+  const handleChangePassword = async () => {
+    await postData("/user/updatePassword", { currentPassword, newPassword });
+
+    setCurrentPassword("");
 
     if (success) {
-    setNewPassword("");
-    setConfirmPassword("");
+      setErrorMessage("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } else {
+      setErrorMessage(
+        "Error: Unable to change password. Please make sure your current password is correct."
+      );
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen pt-20 px-4">
-      {success !== "" ? (
+      {success ? (
         <div className="flex flex-col bg-white items-center max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
-          <h1 className="w-full text-center text-2xl font-bold text-green-500 border-gray-300 border-b-2 pb-4 mb-4">
-            {success}
+          <h1 className="w-full text-center text-2xl font-bold text-green-600 border-gray-300 border-b-2 pb-4 mb-4">
+            Password has been updated
           </h1>
           <Link
             to="/profile"
@@ -66,17 +86,17 @@ function ChangePassword() {
             </h1>
           </section>
           <InputField
-            label="Old Password"
+            label="Current Password"
             type={showPassword ? "text" : "password"}
-            value={oldPassword}
-            onChange={handleOldPasswordChange}
+            value={currentPassword}
+            onChange={handlecurrentPasswordChange}
             icon={FaLock}
             additionalChildren={
               <section onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? (
-                  <FaEyeSlash className="text-2xl ml-2 text-gray-400 hover:text-gray-500 hover:scale-105 duration-500" />
+                  <FaEyeSlash className="text-2xl ml-2 text-gray-300 hover:text-gray-500 hover:scale-105 duration-500" />
                 ) : (
-                  <FaEye className="text-2xl ml-2 text-gray-400 hover:text-gray-500 hover:scale-105 duration-500" />
+                  <FaEye className="text-2xl ml-2 text-gray-300 hover:text-gray-500 hover:scale-105 duration-500" />
                 )}
               </section>
             }
@@ -104,15 +124,11 @@ function ChangePassword() {
               </p>
             </section>
             <button
-              disabled={newPassword.length < 8 || confirmPassword.length < 8}
+              disabled={!allowSubmit}
               className={`flex rounded-full min-w-20 h-20 items-center justify-center duration-500 outline-blue-400
               ${
-                newPassword === confirmPassword &&
-                !(oldPassword === newPassword) &&
-                /\d/.test(newPassword) &&
-                newPassword.length >= 8 &&
-                confirmPassword.length >= 8
-                  ? "bg-green-300 hover:bg-green-400 group"
+                allowSubmit()
+                  ? "bg-green-400 hover:bg-green-400 group"
                   : "bg-gray-300 cursor-not-allowed"
               }
               `}
@@ -124,18 +140,23 @@ function ChangePassword() {
           </div>
         </div>
       )}
+
       {loading && (
         <div className="flex flex-col bg-white max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
           <h1 className="text-center">Loading...</h1>
         </div>
       )}
-      {error && (
-        <div className="flex flex-col bg-white max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
-          <h1 className="text-center font-bold text-red-600">{error}</h1>
+
+      {errorMessage && !success && (
+        <div
+          onClick={acknowledgeError}
+          className="flex flex-col bg-white max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8"
+        >
+          <h1 className="text-center font-bold text-red-600">{errorMessage}</h1>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default ChangePassword;

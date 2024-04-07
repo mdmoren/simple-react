@@ -4,13 +4,11 @@ import { CgMenuRight, CgClose } from "react-icons/cg";
 import { FaReact } from "react-icons/fa";
 import { useAuth } from "../providers/AuthContext";
 
-function Navbar() {
+const Navbar = () => {
   const { isAuthenticated, role } = useAuth();
   const [menu, setMenu] = useState(false);
 
-  function toggleMenu() {
-    setMenu(!menu);
-  }
+  const toggleMenu = () => setMenu(!menu);
 
   const navData = [
     { id: 1, link: "/", label: "Home" },
@@ -37,7 +35,7 @@ function Navbar() {
                 <Link
                   to={item.link}
                   key={item.id}
-                  className="text-lg font-semibold hover:scale-105 duration-300 text-gray-600 hover:text-black"
+                  className="text-lg font-semibold hover:scale-105 duration-500 text-gray-600 hover:text-black"
                 >
                   {item.label}
                 </Link>
@@ -58,7 +56,7 @@ function Navbar() {
           <section className="sm:hidden flex h-full items-center min-w-20 justify-end">
             <CgMenuRight
               onClick={toggleMenu}
-              className="text-2xl hover:scale-110 duration-300 hover:text-blue-600"
+              className="text-2xl hover:scale-110 duration-500 hover:text-blue-600"
             />
           </section>
         )}
@@ -78,7 +76,7 @@ function Navbar() {
                     to={item.link}
                     key={item.id}
                     onClick={toggleMenu}
-                    className="text-2xl hover:scale-110 duration-300 text-gray-700 hover:text-black"
+                    className="text-2xl hover:scale-110 duration-500 text-gray-700 hover:text-black"
                   >
                     {item.label}
                   </Link>
@@ -86,7 +84,7 @@ function Navbar() {
 
                 <CgClose
                   onClick={toggleMenu}
-                  className="text-2xl hover:scale-110 duration-300 hover:text-red-600"
+                  className="text-2xl hover:scale-110 duration-500 hover:text-red-600"
                 />
               </ul>
             </section>
@@ -95,6 +93,6 @@ function Navbar() {
       </nav>
     </div>
   );
-}
+};
 
 export default Navbar;

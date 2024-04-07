@@ -3,7 +3,7 @@ import { useAuth } from "../providers/AuthContext";
 import { useFetch } from "../hooks/useFetch";
 import { RiLoader2Fill } from "react-icons/ri";
 
-function AdminPage() {
+const AdminPage = () => {
   const { data, error, loading } = useFetch("/admin/getAllUsers");
   const { validateSession } = useAuth();
 

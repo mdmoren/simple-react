@@ -7,43 +7,37 @@ import { MdEmail } from "react-icons/md";
 import InputField from "../../components/InputField";
 import { FaLongArrowAltRight, FaLongArrowAltLeft } from "react-icons/fa";
 
-export default function ForgotPassword() {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  
   const [error, setError] = useState(false);
   const { forgotPassword } = useAuth();
   const navigate = useNavigate();
 
-  async function handleResetPassword() {
+  const handleEmailChange = (e) => setEmail(e.target.value);
+
+  const validateEmail = (email) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
+
+  const acknowledgeError = () => setError("");
+
+  const handleResetPassword = async () => {
     try {
       await forgotPassword(email);
       navigate("/reset-password");
     } catch (error) {
-      setError("Error");
+      setError("Error: Email could not be found.");
     }
-  }
-
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
-  }
-
-  function validateEmail(email) {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  }
-
-  function acknowledgeError() {
-    setError("");
-  }
-
-  const isEmailValid = validateEmail(email);
+  };
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen pt-20 px-4">
       <div className="flex flex-col bg-white max-w-md w-full shadow-md rounded-md space-y-6 px-8 pt-6 pb-8 m-8">
         <section className="flex items-center border-gray-300 border-b-2 pb-4">
-
-        <Link to="/login">
-            <FaLongArrowAltLeft className="text-2xl w-10 text-gray-500 hover:text-gray-600"/>
+          <Link to="/login">
+            <FaLongArrowAltLeft className="text-2xl w-10 text-gray-500 hover:text-gray-600" />
           </Link>
 
           <h1 className="text-center text-2xl font-bold text-gray-600 flex-grow mr-10">
@@ -72,11 +66,11 @@ export default function ForgotPassword() {
             </Link>
           </section>
           <button
-            disabled={!isEmailValid}
+            disabled={!validateEmail(email)}
             className={`flex rounded-full w-20 h-20 items-center justify-center duration-500 outline-blue-400
             ${
-              isEmailValid
-                ? "bg-green-300 hover:bg-green-400 group"
+              validateEmail(email)
+                ? "bg-green-400 hover:bg-green-400 group"
                 : "bg-gray-300 cursor-not-allowed"
             }
             `}
@@ -93,9 +87,11 @@ export default function ForgotPassword() {
           onClick={acknowledgeError}
           className="flex flex-col bg-white max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8"
         >
-          <h1 className="text-center text-red-600">{error}</h1>
+          <h1 className="text-center font-bold text-red-600">{error}</h1>
         </div>
       )}
     </div>
   );
-}
+};
+
+export default ForgotPassword;
