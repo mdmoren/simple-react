@@ -1,42 +1,53 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../providers/AuthContext";
-import { MdEmail } from "react-icons/md";
 
-import InputField from "../../components/InputField";
 import { FaLongArrowAltRight, FaLongArrowAltLeft } from "react-icons/fa";
 
 import usePost from "../../hooks/usePost";
+import CancelEmailVerification from "./CancelEmailVerification";
 
-const ChangeEmail = () => {
-  const { validateSession } = useAuth();
-  const { loading, success, error, postData } = usePost();
-
-  const [newEmail, setNewEmail] = useState("");
-
+const VerifyEmail = () => {
+  const [codes, setCodes] = useState(["", "", "", "", "", ""]);
   const [errorMessage, setErrorMessage] = useState(false);
+
+  const inputRefs = useRef([]);
+
+  const { loading, success, error, postData } = usePost();
+  const { validateSession } = useAuth();
 
   useEffect(() => {
     validateSession();
   }, [validateSession]);
 
-  const handleEmailChange = (e) => setNewEmail(e.target.value);
+  const handleCodeChange = (index, e) => {
+    const newCodes = [...codes];
+    newCodes[index] = e.target.value.toUpperCase();
+    setCodes(newCodes);
 
-  const validateEmail = (email) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
+    if (index < inputRefs.current.length - 1 && e.target.value !== "") {
+      inputRefs.current[index + 1].focus();
+    }
+  };
+
+  const handleKeyDown = (index, e) => {
+    if (e.key === "Backspace" && index > 0 && codes[index] === "") {
+      inputRefs.current[index - 1].focus();
+    }
   };
 
   const acknowledgeError = () => setErrorMessage("");
 
-  const handleResetEmail = async () => {
-    await postData("/user/changeEmail", { newEmail });
+  const handleVerifyEmail = async () => {
+    const code = codes.join("");
+
+    await postData("/user/updateEmail", { code });
 
     if (success) {
       setErrorMessage("");
-      setNewEmail("");
+      setCodes(["", "", "", "", "", ""]);
     } else {
-      setErrorMessage("Error: A reset code already exists for this user. Please check the new email that was submitted for this user or wait 1 hour to submit a new email change.");
+      setErrorMessage("Error: Invalid code.");
     }
   };
 
@@ -45,13 +56,13 @@ const ChangeEmail = () => {
       {success ? (
         <div className="flex flex-col bg-white items-center max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
           <h1 className="w-full text-center text-lg font-bold text-green-600 border-gray-300 border-b-2 pb-4 mb-4">
-            Reset code has been sent to your new email
+            Email has been updated
           </h1>
           <Link
-            to="/profile/verifyEmail"
+            to="/profile"
             className="text-sm font-bold text-gray-500 hover:text-gray-600 duration-500 outline-none"
           >
-            Verify new email
+            Go back to profile
           </Link>
         </div>
       ) : (
@@ -62,44 +73,59 @@ const ChangeEmail = () => {
             </Link>
 
             <h1 className="text-center text-2xl font-bold text-gray-600 flex-grow mr-10">
-              Change Email
+              Verify Email
             </h1>
           </section>
 
-          <InputField
-            label="New Email"
-            type="text"
-            value={newEmail}
-            onChange={handleEmailChange}
-            icon={MdEmail}
-          />
+          <section>
+            <h1 className="font-bold text-gray-500 text-center mb-2">
+              Enter your reset code
+            </h1>
+            <div className="flex justify-center space-x-2">
+              {codes.map((code, index) => (
+                <input
+                  key={index}
+                  ref={(ref) => (inputRefs.current[index] = ref)}
+                  className={`w-10 sm:w-12 h-10 sm:h-12 text-2xl text-center rounded-md border-2 outline-none border-gray-300 focus:border-blue-400
+                ${code ? "border-green-400" : "hover:border-orange-400"}
+                `}
+                  type="text"
+                  maxLength="1"
+                  value={code}
+                  onChange={(e) => handleCodeChange(index, e)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
+                />
+              ))}
+            </div>
+          </section>
 
           <div className="flex justify-between border-gray-300 border-t-2 pt-4">
             <section className="flex flex-col justify-between">
-              <h1 className="text-2xl font-bold text-gray-600">
-                Send reset code
-              </h1>
+              <h1 className="text-2xl font-bold text-gray-600">Reset</h1>
               <p className="text-sm font-semibold text-gray-500 pr-2">
-                Enter the new email that you want to use for this profile
+                Please find the reset code that was sent to the new email that
+                was submitted.
               </p>
             </section>
             <button
-              disabled={!validateEmail(newEmail)}
+              disabled={codes.some((code) => code === "")}
               className={`flex rounded-full min-w-20 h-20 items-center justify-center duration-500 outline-blue-400
             ${
-              validateEmail(newEmail)
+              !codes.some((code) => code === "")
                 ? "bg-green-400 hover:bg-green-400 group"
                 : "bg-gray-300 cursor-not-allowed"
             }
             `}
               type="button"
-              onClick={handleResetEmail}
+              onClick={handleVerifyEmail}
             >
               <FaLongArrowAltRight className="text-4xl text-gray-500 group-hover:text-gray-600  duration-500" />
             </button>
           </div>
         </div>
       )}
+
+      {!success && <CancelEmailVerification />}
 
       {loading && (
         <div className="flex flex-col bg-white max-w-md w-full shadow-md rounded px-8 pt-6 pb-8 m-8">
@@ -119,4 +145,4 @@ const ChangeEmail = () => {
   );
 };
 
-export default ChangeEmail;
+export default VerifyEmail;

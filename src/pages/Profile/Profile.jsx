@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { useFetch } from "../../hooks/useFetch";
 import { useAuth } from "../../providers/AuthContext";
@@ -7,15 +7,21 @@ import { Link } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import { CgLogOut, CgClose } from "react-icons/cg";
 import { RiLoader2Fill } from "react-icons/ri";
-import { FaLongArrowAltRight } from "react-icons/fa";
+import { FaLongArrowAltRight,FaExclamationCircle } from "react-icons/fa";
 
 const Profile = () => {
   const [editMenu, setEditMenu] = useState(false);
+  const { validateSession, logout } = useAuth();
   const { data, error, loading } = useFetch("/user/myProfile");
-  const { logout } = useAuth();
+
+  useEffect(() => {
+    validateSession();
+  }, [validateSession]);
 
   const handleLogout = async () => await logout();
-  const toggleEditMenu = () => setEditMenu(!editMenu);
+  const toggleEditMenu = () => setEditMenu((prevEditMenu) => !prevEditMenu);
+
+  const userData = useMemo(() => data?.userData?.[0], [data]);
 
   if (error) {
     return <div className="pt-20 text-center min-h-screen">Error: {error}</div>;
@@ -34,10 +40,13 @@ const Profile = () => {
               onClick={toggleEditMenu}
             />
           ) : (
-            <BsThreeDots
-              className="text-2xl hover:scale-110 duration-500 text-gray-600 hover:text-blue-600"
-              onClick={toggleEditMenu}
-            />
+            <div className="flex items-center">
+              {data?.emailChange && <FaExclamationCircle className="mr-2 text-xl text-red-600 animate-pulse"/>}
+              <BsThreeDots
+                className="text-2xl hover:scale-110 duration-500 text-gray-600 hover:text-blue-600"
+                onClick={toggleEditMenu}
+              />
+            </div>
           )}
           {editMenu && (
             <section className="absolute right-0 top-10 border-2 bg-white px-8 pt-6 pb-8 shadow-md rounded-md">
@@ -49,13 +58,24 @@ const Profile = () => {
                   <label className="w-full text-end">Change Password</label>
                   <FaLongArrowAltRight className="mx-2 group-hover:translate-x-2  duration-500" />
                 </Link>
-                <Link
-                  to="/profile/changeEmail"
-                  className="group flex text-md font-semibold items-center justify-between text-gray-600 hover:text-blue-600 cursor-pointer duration-500"
-                >
-                  <label className="w-full text-end">Change Email</label>
-                  <FaLongArrowAltRight className="mx-2 group-hover:translate-x-2 duration-500" />
-                </Link>
+                {!data?.emailChange ? (
+                  <Link
+                    to="/profile/changeEmail"
+                    className="group flex text-md font-semibold items-center justify-between text-gray-600 hover:text-blue-600 cursor-pointer duration-500"
+                  >
+                    <label className="w-full text-end">Change Email</label>
+                    <FaLongArrowAltRight className="mx-2 group-hover:translate-x-2 duration-500" />
+                  </Link>
+                ) : (
+                  <Link
+                    to="/profile/verifyEmail"
+                    className="group flex text-md font-semibold items-center justify-between text-gray-600 hover:text-blue-600 cursor-pointer duration-500"
+                  >
+                    <FaExclamationCircle className="mr-2 text-2xl text-red-600 animate-pulse"/>
+                    <label className="w-full text-end">Verify Email</label>
+                    <FaLongArrowAltRight className="mx-2 group-hover:translate-x-2 duration-500" />
+                  </Link>
+                )}
               </ul>
             </section>
           )}
@@ -66,22 +86,22 @@ const Profile = () => {
             <RiLoader2Fill className="text-3xl animate-spin" />
           </div>
         ) : (
-          data && (
+          userData && (
             <div className="space-y-2">
               <p>
-                <strong>Username:</strong> {data[0]?.username}
+                <strong>Username:</strong> {userData.username}
               </p>
               <p>
-                <strong>Email:</strong> {data[0]?.email}
+                <strong>Email:</strong> {userData.email}
               </p>
               <p>
-                <strong>Name:</strong> {data[0]?.firstName} {data[0]?.lastName}
+                <strong>Name:</strong> {userData.firstName} {userData.lastName}
               </p>
               <p>
-                <strong>Status:</strong> {data[0]?.status}
+                <strong>Status:</strong> {userData.status}
               </p>
               <p>
-                <strong>Role:</strong> {data[0]?.roles}
+                <strong>Role:</strong> {userData.roles}
               </p>
             </div>
           )

@@ -12,6 +12,7 @@ import Login from "./pages/Auth/Login";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import AdminPage from "./pages/AdminPage";
+import VerifyEmail from "./pages/Profile/VerifyEmail";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/changePassword" element={<ChangePassword />} />
           <Route path="/profile/changeEmail" element={<ChangeEmail />} />\
+          <Route path="/profile/verifyEmail" element={<VerifyEmail />} />\
           <Route element={<AdminRoute />}>
             <Route path="/admin" element={<AdminPage />} />
           </Route>
